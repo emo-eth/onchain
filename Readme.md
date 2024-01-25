@@ -1,4 +1,4 @@
-# onchain
+# onchain 🔛⛓️
 
 Onchain is a library for working with onchain metadata (especially for NFTs).
 
