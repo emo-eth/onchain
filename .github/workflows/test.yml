@@ -1,0 +1,45 @@
+name: Forge Tests
+
+on:
+  push:
+    branches: [main]
+    tags: ["*"]
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+env:
+  FOUNDRY_PROFILE: ci
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    strategy:
+      fail-fast: true
+
+    name: Foundry project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run Forge build
+        run: |
+          forge --version
+          forge build --sizes
+        id: build
+        # don't fail if contract sizes are too large; tests will fail next if compilation failed
+        continue-on-error: true
+
+      - name: Run Forge tests
+        run: |
+          FOUNDRY_PROFILE=CI forge test -vvv
+        id: test

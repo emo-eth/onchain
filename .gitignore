@@ -1,0 +1,26 @@
+# Compiler files
+cache/
+out/
+via_ir-out/
+
+# Ignores development broadcast logs
+broadcast/*
+!/broadcast
+/broadcast/*/31337/
+/broadcast/**/dry-run/
+
+# Docs
+docs/
+
+# Dotenv file
+.env
+
+.DS_Store
+
+# coverage
+coverage/
+lcov.info
+
+# ffi related
+test-ffi/scripts/node_modules
+test-ffi/tmp/temp*
