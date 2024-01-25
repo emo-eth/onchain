@@ -2,23 +2,23 @@
 pragma solidity ^0.8.17;
 
 import {Test} from "forge-std/Test.sol";
-import {svg} from "../src/svg.sol";
+import {Svg} from "../src/Svg.sol";
 
 contract svgTest is Test {
     function testTop() public {
         string memory expected =
             '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle width="100" height="100"/></svg>';
-        string memory actual = svg.top('width="100" height="100"', '<circle width="100" height="100"/>');
+        string memory actual = Svg.top('width="100" height="100"', '<circle width="100" height="100"/>');
 
         assertEq(expected, actual);
 
         expected = '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"></svg>';
-        actual = svg.top('width="100" height="100"', "");
+        actual = Svg.top('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = '<svg xmlns="http://www.w3.org/2000/svg" ></svg>';
-        actual = svg.top("", "");
+        actual = Svg.top("", "");
 
         assertEq(expected, actual);
     }
@@ -26,168 +26,168 @@ contract svgTest is Test {
     function testSvg() public {
         string memory expected =
             '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle width="100" height="100"/></svg>';
-        string memory actual = svg.svg_(true, 'width="100" height="100"', '<circle width="100" height="100"/>');
+        string memory actual = Svg.svg('width="100" height="100"', '<circle width="100" height="100"/>', true);
 
         assertEq(expected, actual);
 
         expected = '<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"></svg>';
-        actual = svg.svg_(true, 'width="100" height="100"', "");
+        actual = Svg.svg('width="100" height="100"', "", true);
 
         assertEq(expected, actual);
 
         expected = '<svg width="100" height="100"></svg>';
-        actual = svg.svg_(false, 'width="100" height="100"', "");
+        actual = Svg.svg('width="100" height="100"', "", false);
 
         assertEq(expected, actual);
 
         expected = "<svg ></svg>";
-        actual = svg.svg_(false, "", "");
+        actual = Svg.svg("", "", false);
 
         assertEq(expected, actual);
     }
 
     function testG() public {
         string memory expected = '<g width="100" height="100"><circle width="100" height="100"></circle></g>';
-        string memory actual = svg.g('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.g('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<g width="100" height="100"></g>';
-        actual = svg.g('width="100" height="100"', "");
+        actual = Svg.g('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<g ></g>";
-        actual = svg.g("", "");
+        actual = Svg.g("", "");
 
         assertEq(expected, actual);
     }
 
     function testPath() public {
         string memory expected = '<path width="100" height="100"><circle width="100" height="100"></circle></path>';
-        string memory actual = svg.path('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.path('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<path width="100" height="100"></path>';
-        actual = svg.path('width="100" height="100"', "");
+        actual = Svg.path('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<path ></path>";
-        actual = svg.path("", "");
+        actual = Svg.path("", "");
 
         assertEq(expected, actual);
     }
 
     function testText() public {
         string memory expected = '<text width="100" height="100"><circle width="100" height="100"></circle></text>';
-        string memory actual = svg.text('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.text('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<text width="100" height="100"></text>';
-        actual = svg.text('width="100" height="100"', "");
+        actual = Svg.text('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<text ></text>";
-        actual = svg.text("", "");
+        actual = Svg.text("", "");
 
         assertEq(expected, actual);
     }
 
     function testLine() public {
         string memory expected = '<line width="100" height="100"><circle width="100" height="100"></circle></line>';
-        string memory actual = svg.line('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.line('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<line width="100" height="100"></line>';
-        actual = svg.line('width="100" height="100"', "");
+        actual = Svg.line('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<line ></line>";
-        actual = svg.line("", "");
+        actual = Svg.line("", "");
 
         assertEq(expected, actual);
     }
 
     function testCircle() public {
         string memory expected = '<circle width="100" height="100"><circle width="100" height="100"></circle></circle>';
-        string memory actual = svg.circle('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.circle('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<circle width="100" height="100"></circle>';
-        actual = svg.circle('width="100" height="100"', "");
+        actual = Svg.circle('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<circle ></circle>";
-        actual = svg.circle("", "");
+        actual = Svg.circle("", "");
     }
 
     function testCircleNoChildren() public {
         string memory expected = '<circle width="100" height="100"/>';
-        string memory actual = svg.circle('width="100" height="100"');
+        string memory actual = Svg.circle('width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = "<circle />";
-        actual = svg.circle("");
+        actual = Svg.circle("");
 
         assertEq(expected, actual);
     }
 
     function testRect() public {
         string memory expected = '<rect width="100" height="100"><circle width="100" height="100"></circle></rect>';
-        string memory actual = svg.rect('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.rect('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<rect width="100" height="100"></rect>';
-        actual = svg.rect('width="100" height="100"', "");
+        actual = Svg.rect('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<rect ></rect>";
-        actual = svg.rect("", "");
+        actual = Svg.rect("", "");
 
         assertEq(expected, actual);
     }
 
     function testRectNoChildren() public {
         string memory expected = '<rect width="100" height="100"/>';
-        string memory actual = svg.rect('width="100" height="100"');
+        string memory actual = Svg.rect('width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = "<rect />";
-        actual = svg.rect("");
+        actual = Svg.rect("");
 
         assertEq(expected, actual);
     }
 
     function testFilter() public {
         string memory expected = '<filter width="100" height="100"><circle width="100" height="100"></circle></filter>';
-        string memory actual = svg.filter('width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.filter('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<filter width="100" height="100"></filter>';
-        actual = svg.filter('width="100" height="100"', "");
+        actual = Svg.filter('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<filter ></filter>";
-        actual = svg.filter("", "");
+        actual = Svg.filter("", "");
     }
 
     function testCdata() public {
         string memory expected = "<![CDATA[<svg></svg>]]>";
-        string memory actual = svg.cdata("<svg></svg>");
+        string memory actual = Svg.cdata("<svg></svg>");
 
         assertEq(expected, actual);
     }
@@ -196,137 +196,137 @@ contract svgTest is Test {
         string memory expected =
             '<radialGradient width="100" height="100"><circle width="100" height="100"></circle></radialGradient>';
         string memory actual =
-            svg.radialGradient('width="100" height="100"', '<circle width="100" height="100"></circle>');
+            Svg.radialGradient('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<radialGradient width="100" height="100"></radialGradient>';
-        actual = svg.radialGradient('width="100" height="100"', "");
+        actual = Svg.radialGradient('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<radialGradient ></radialGradient>";
-        actual = svg.radialGradient("", "");
+        actual = Svg.radialGradient("", "");
     }
 
     function testLinearGradient() public {
         string memory expected =
             '<linearGradient width="100" height="100"><circle width="100" height="100"></circle></linearGradient>';
         string memory actual =
-            svg.linearGradient('width="100" height="100"', '<circle width="100" height="100"></circle>');
+            Svg.linearGradient('width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<linearGradient width="100" height="100"></linearGradient>';
-        actual = svg.linearGradient('width="100" height="100"', "");
+        actual = Svg.linearGradient('width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<linearGradient ></linearGradient>";
-        actual = svg.linearGradient("", "");
+        actual = Svg.linearGradient("", "");
     }
 
     function testGradientStop() public {
         string memory expected = '<stop stop-color="red" offset="0%" width="100" height="100"/>';
-        string memory actual = svg.gradientStop(0, "red", 'width="100" height="100"');
+        string memory actual = Svg.gradientStop(0, "red", 'width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = '<stop stop-color="red" offset="0%" />';
-        actual = svg.gradientStop(0, "red", "");
+        actual = Svg.gradientStop(0, "red", "");
 
         assertEq(expected, actual);
     }
 
     function testAnimateTransform() public {
         string memory expected = '<animateTransform width="100" height="100"/>';
-        string memory actual = svg.animateTransform('width="100" height="100"');
+        string memory actual = Svg.animateTransform('width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = "<animateTransform />";
-        actual = svg.animateTransform("");
+        actual = Svg.animateTransform("");
 
         assertEq(expected, actual);
     }
 
     function testImage() public {
         string memory expected = '<image href="https://example.com" width="100" height="100"/>';
-        string memory actual = svg.image("https://example.com", 'width="100" height="100"');
+        string memory actual = Svg.image("https://example.com", 'width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = '<image href="https://example.com" />';
-        actual = svg.image("https://example.com", "");
+        actual = Svg.image("https://example.com", "");
 
         assertEq(expected, actual);
     }
 
     function testEl() public {
         string memory expected = '<rect width="100" height="100"><circle width="100" height="100"></circle></rect>';
-        string memory actual = svg.el("rect", 'width="100" height="100"', '<circle width="100" height="100"></circle>');
+        string memory actual = Svg.el("rect", 'width="100" height="100"', '<circle width="100" height="100"></circle>');
 
         assertEq(expected, actual);
 
         expected = '<rect width="100" height="100"></rect>';
-        actual = svg.el("rect", 'width="100" height="100"', "");
+        actual = Svg.el("rect", 'width="100" height="100"', "");
 
         assertEq(expected, actual);
 
         expected = "<rect ></rect>";
-        actual = svg.el("rect", "", "");
+        actual = Svg.el("rect", "", "");
 
         assertEq(expected, actual);
     }
 
     function testElNoChildren() public {
         string memory expected = '<rect width="100" height="100"/>';
-        string memory actual = svg.el("rect", 'width="100" height="100"');
+        string memory actual = Svg.el("rect", 'width="100" height="100"');
 
         assertEq(expected, actual);
 
         expected = "<rect />";
-        actual = svg.el("rect", "");
+        actual = Svg.el("rect", "");
 
         assertEq(expected, actual);
     }
 
     function testProp() public {
         string memory expected = 'width="100" ';
-        string memory actual = svg.prop("width", "100");
+        string memory actual = Svg.prop("width", "100");
 
         assertEq(expected, actual);
     }
 
     function testSetCssVar() public {
         string memory expected = "--width:100;";
-        string memory actual = svg.setCssVar("width", "100");
+        string memory actual = Svg.setCssVar("width", "100");
 
         assertEq(expected, actual);
     }
 
     function testGetCssVar() public {
         string memory expected = "var(--width)";
-        string memory actual = svg.getCssVar("width");
+        string memory actual = Svg.getCssVar("width");
 
         assertEq(expected, actual);
     }
 
     function testGetDefURL() public {
         string memory expected = "url(#id)";
-        string memory actual = svg.getDefURL("id");
+        string memory actual = Svg.getDefURL("id");
 
         assertEq(expected, actual);
     }
 
     function testRgba() public {
         string memory expected = "rgba(100,100,100,0.1)";
-        string memory actual = svg.rgba(100, 100, 100, 1);
+        string memory actual = Svg.rgba(100, 100, 100, 1);
 
         assertEq(expected, actual);
 
         expected = "rgba(100,100,100,1)";
-        actual = svg.rgba(100, 100, 100, 100);
+        actual = Svg.rgba(100, 100, 100, 100);
 
         assertEq(expected, actual);
     }

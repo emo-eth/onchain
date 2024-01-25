@@ -8,17 +8,17 @@ import {LibString} from "solady/utils/LibString.sol";
  * @author w1nt3r.eth
  * @notice Modified from w1nt3r.eth's hot-chain-svg library: https://github.com/w1nt3r-eth/hot-chain-svg
  */
-library svg {
+library Svg {
     using LibString for uint256;
 
     // used to simulate empty strings
     string internal constant NULL = "";
 
     function top(string memory props, string memory children) internal pure returns (string memory) {
-        return svg_(true, props, children);
+        return svg(props, children, true);
     }
 
-    function svg_(bool includeXmlns, string memory props, string memory children)
+    function svg(string memory props, string memory children, bool includeXmlns)
         internal
         pure
         returns (string memory)

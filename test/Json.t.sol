@@ -2,7 +2,7 @@
 pragma solidity ^0.8.4;
 
 import {Test} from "forge-std/Test.sol";
-import {json} from "../src/json.sol";
+import {Json} from "../src/Json.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {StringTestUtility} from "./helpers/StringTestUtility.sol";
 
@@ -11,44 +11,44 @@ contract JsonTest is Test {
     using LibString for string[];
 
     function testObject(string memory objectContents) public {
-        string memory objectified = json.object(objectContents);
+        string memory objectified = Json.object(objectContents);
         assertTrue(objectified.startsWith("{"));
         assertTrue(objectified.endsWith("}"));
     }
 
     function testArray(string memory arrayContents) public {
-        string memory arrayified = json.array(arrayContents);
+        string memory arrayified = Json.array(arrayContents);
         assertTrue(arrayified.startsWith("["));
         assertTrue(arrayified.endsWith("]"));
     }
 
     function testProperty(string memory name, string memory value) public {
-        string memory propertyified = json.property(name, value);
+        string memory propertyified = Json.property(name, value);
         assertTrue(propertyified.startsWith('"'));
         assertTrue(propertyified.endsWith('"'));
         assertTrue(propertyified.indexOf(":", 0) != type(uint256).max);
-        assertTrue(propertyified.startsWith(json.quote(name)));
-        assertTrue(propertyified.endsWith(json.quote(value)));
+        assertTrue(propertyified.startsWith(Json.quote(name)));
+        assertTrue(propertyified.endsWith(Json.quote(value)));
     }
 
     function testRawProperty(string memory name, string memory value) public {
-        string memory propertyified = json.rawProperty(name, value);
+        string memory propertyified = Json.rawProperty(name, value);
         assertTrue(propertyified.startsWith('"'));
         if (!value.endsWith('"')) {
             assertFalse(propertyified.endsWith('"'));
         }
         assertTrue(propertyified.indexOf(":", 0) != type(uint256).max);
-        assertTrue(propertyified.startsWith(json.quote(name)));
+        assertTrue(propertyified.startsWith(Json.quote(name)));
         assertTrue(propertyified.endsWith(value));
     }
 
     function testObjectOf(string memory name, string memory value, uint8 num) public {
-        string memory property = num > 0 ? json.property(name, value) : "";
+        string memory property = num > 0 ? Json.property(name, value) : "";
         string[] memory properties = new string[](num);
         for (uint8 i = 0; i < num; i++) {
             properties[i] = property;
         }
-        string memory objectified = json.objectOf(properties);
+        string memory objectified = Json.objectOf(properties);
         assertTrue(objectified.startsWith("{"));
         assertTrue(objectified.endsWith("}"));
         assertTrue(objectified.startsWith(string.concat("{", property)));
@@ -65,7 +65,7 @@ contract JsonTest is Test {
         for (uint8 i = 0; i < num; i++) {
             values[i] = value;
         }
-        string memory jsonArray = json.arrayOf(values);
+        string memory jsonArray = Json.arrayOf(values);
         assertTrue(jsonArray.startsWith("["));
         assertTrue(jsonArray.endsWith("]"));
         assertTrue(jsonArray.startsWith(string.concat("[", value)));
@@ -89,7 +89,7 @@ contract JsonTest is Test {
         for (uint8 i = 0; i < num2; i++) {
             values2[i] = value;
         }
-        string memory jsonArray = json.arrayOf(values1, values2);
+        string memory jsonArray = Json.arrayOf(values1, values2);
         emit log_named_string("jsonArray", jsonArray);
         assertTrue(jsonArray.startsWith("["));
         assertTrue(jsonArray.endsWith("]"));
@@ -104,7 +104,7 @@ contract JsonTest is Test {
     function testQuote(string memory value) public {
         string memory newValue = LibString.escapeJSON(value);
         vm.assume(bytes(newValue).length == bytes(value).length);
-        string memory quoted = json.quote(value);
+        string memory quoted = Json.quote(value);
         assertTrue(quoted.startsWith('"'));
         assertTrue(quoted.endsWith('"'));
         assertTrue(quoted.indexOf(value, 0) != type(uint256).max);
@@ -116,7 +116,7 @@ contract JsonTest is Test {
         for (uint8 i = 0; i < times; i++) {
             strings[i] = str;
         }
-        string memory joined = json._commaJoin(strings);
+        string memory joined = Json._commaJoin(strings);
         assertTrue(joined.startsWith(str));
         assertTrue(joined.endsWith(str));
         uint256 countNativeComma = StringTestUtility.countChar(str, ",");
@@ -129,6 +129,6 @@ contract JsonTest is Test {
         string memory a = "a";
         string memory b = "b";
         string memory joined = "a,b";
-        assertEq(json._commaJoin(a, b), joined);
+        assertEq(Json._commaJoin(a, b), joined);
     }
 }

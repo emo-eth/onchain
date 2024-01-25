@@ -8,7 +8,7 @@ import {LibString} from "solady/utils/LibString.sol";
  * @author emo.eth
  * @notice TODO: overrides for common types that automatically stringify
  */
-library json {
+library Json {
     string private constant NULL = "";
 
     using LibString for string;

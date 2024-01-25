@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {json} from "../../src/json.sol";
-import {svg} from "../../src/svg.sol";
+import {Json} from "../src/Json.sol";
+import {Svg} from "../src/Svg.sol";
 import {LibString} from "solady/utils/LibString.sol";
-import {Solarray} from "solarray/Solarray.sol";
-import {Metadata, DisplayType} from "../../src/Metadata.sol";
+import {Solarray} from "../src/Solarray.sol";
+import {Metadata, DisplayType} from "../src/Metadata.sol";
 import {ERC721} from "solady/tokens/ERC721.sol";
 
 contract ExampleNFT is ERC721 {
@@ -32,12 +32,12 @@ contract ExampleNFT is ERC721 {
      * @param tokenId The token ID to get URI for
      */
     function _stringURI(uint256 tokenId) internal view returns (string memory) {
-        return json.objectOf(
+        return Json.objectOf(
             Solarray.strings(
-                json.property("name", string.concat("Example NFT #", LibString.toString(tokenId))),
-                json.property("description", "This is an example NFT"),
-                json.property("image", Metadata.base64SvgDataURI(_image(tokenId))),
-                json.rawProperty("attributes", json.arrayOf(_staticAttributes(tokenId)))
+                Json.property("name", string.concat("Example NFT #", LibString.toString(tokenId))),
+                Json.property("description", "This is an example NFT"),
+                Json.property("image", Metadata.base64SvgDataURI(_image(tokenId))),
+                Json.rawProperty("attributes", Json.arrayOf(_staticAttributes(tokenId)))
             )
         );
     }
@@ -63,20 +63,20 @@ contract ExampleNFT is ERC721 {
      * @param tokenId The token ID to get the dynamic attributes for
      */
     function _image(uint256 tokenId) internal pure virtual returns (string memory) {
-        return svg.top({
-            props: string.concat(svg.prop("width", "500"), svg.prop("height", "500")),
+        return Svg.top({
+            props: string.concat(Svg.prop("width", "500"), Svg.prop("height", "500")),
             children: string.concat(
-                svg.rect({
-                    props: string.concat(svg.prop("width", "500"), svg.prop("height", "500"), svg.prop("fill", "lightgray"))
+                Svg.rect({
+                    props: string.concat(Svg.prop("width", "500"), Svg.prop("height", "500"), Svg.prop("fill", "lightgray"))
                 }),
-                svg.text({
+                Svg.text({
                     props: string.concat(
-                        svg.prop("x", "50%"),
-                        svg.prop("y", "50%"),
-                        svg.prop("dominant-baseline", "middle"),
-                        svg.prop("text-anchor", "middle"),
-                        svg.prop("font-size", "48"),
-                        svg.prop("fill", "black")
+                        Svg.prop("x", "50%"),
+                        Svg.prop("y", "50%"),
+                        Svg.prop("dominant-baseline", "middle"),
+                        Svg.prop("text-anchor", "middle"),
+                        Svg.prop("font-size", "48"),
+                        Svg.prop("fill", "black")
                         ),
                     children: LibString.toString(tokenId)
                 })

@@ -3,9 +3,8 @@ pragma solidity ^0.8.17;
 
 import {Base64} from "solady/utils/Base64.sol";
 import {Test} from "forge-std/Test.sol";
-import {svg} from "../src/svg.sol";
 import {ExampleNFT} from "./ExampleNFT.sol";
-import {svg} from "../src/svg.sol";
+import {Svg} from "../src/Svg.sol";
 
 contract svgTest is Test {
     ExampleNFT testExampleNft;
@@ -15,7 +14,7 @@ contract svgTest is Test {
 
     string TEMP_SVG_DIR_PATH_AND_PREFIX = "./test-ffi/tmp/temp-";
     string TEMP_SVG_FILE_TYPE = ".svg";
-    string VALIDATE_SVG_PATH = "./test-ffi/scripts/validate_svg.js";
+    string VALIDATE_SVG_PATH = "./test-ffi/scripts/validate_Svg.js";
 
     function setUp() public {
         testExampleNft = new ExampleNFT();
@@ -38,149 +37,149 @@ contract svgTest is Test {
 
     function testTop() public {
         _validateTopLevelSvg(
-            svg.top('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.top('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "top-with-props-and-children"
         );
-        _validateTopLevelSvg(svg.top('width="100" height="100"', ""), "top-with-props");
-        _validateTopLevelSvg(svg.top("", ""), "top-no-props");
+        _validateTopLevelSvg(Svg.top('width="100" height="100"', ""), "top-with-props");
+        _validateTopLevelSvg(Svg.top("", ""), "top-no-props");
     }
 
     function testSvg() public {
         _validateTopLevelSvg(
-            svg.svg_(true, 'width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.svg('width="100" height="100"', '<circle width="100" height="100"></circle>', true),
             "svg-with-props-and-children"
         );
-        _validateTopLevelSvg(svg.svg_(true, 'width="100" height="100"', ""), "svg-with-props-includeXmlns");
-        _validateTopLevelSvg(svg.svg_(false, 'width="100" height="100"', ""), "svg-with-props-no-includeXmlns");
-        _validateTopLevelSvg(svg.svg_(false, "", ""), "svg-no-props");
+        _validateTopLevelSvg(Svg.svg('width="100" height="100"', "", false), "svg-with-props-includeXmlns");
+        _validateTopLevelSvg(Svg.svg('width="100" height="100"', "", false), "svg-with-props-no-includeXmlns");
+        _validateTopLevelSvg(Svg.svg("", "", false), "svg-no-props");
     }
 
     function testG() public {
         _validateSvgElement(
-            svg.g('width="100" height="100"', '<circle width="100" height="100"></circle>'), "g-with-props-and-children"
+            Svg.g('width="100" height="100"', '<circle width="100" height="100"></circle>'), "g-with-props-and-children"
         );
-        _validateSvgElement(svg.g('width="100" height="100"', ""), "g-with-props");
-        _validateSvgElement(svg.g("", ""), "g-no-props");
+        _validateSvgElement(Svg.g('width="100" height="100"', ""), "g-with-props");
+        _validateSvgElement(Svg.g("", ""), "g-no-props");
     }
 
     function testPath() public {
         _validateSvgElement(
-            svg.path('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.path('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "path-with-props-and-children"
         );
-        _validateSvgElement(svg.path('width="100" height="100"', ""), "path-with-props");
-        _validateSvgElement(svg.path("", ""), "path-no-props");
+        _validateSvgElement(Svg.path('width="100" height="100"', ""), "path-with-props");
+        _validateSvgElement(Svg.path("", ""), "path-no-props");
     }
 
     function testText() public {
         _validateSvgElement(
-            svg.text('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.text('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "text-with-props-and-children"
         );
-        _validateSvgElement(svg.text('width="100" height="100"', ""), "text-with-props");
-        _validateSvgElement(svg.text("", ""), "text-no-props");
+        _validateSvgElement(Svg.text('width="100" height="100"', ""), "text-with-props");
+        _validateSvgElement(Svg.text("", ""), "text-no-props");
     }
 
     function testLine() public {
         _validateSvgElement(
-            svg.line('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.line('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "line-with-props-and-children"
         );
-        _validateSvgElement(svg.line('width="100" height="100"', ""), "line-with-props");
-        _validateSvgElement(svg.line("", ""), "line-no-props");
+        _validateSvgElement(Svg.line('width="100" height="100"', ""), "line-with-props");
+        _validateSvgElement(Svg.line("", ""), "line-no-props");
     }
 
     function testCircle() public {
         _validateSvgElement(
-            svg.circle('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.circle('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "circle-with-props-and-children"
         );
-        _validateSvgElement(svg.circle('width="100" height="100"', ""), "circle-with-props");
-        _validateSvgElement(svg.circle("", ""), "circle-no-props");
+        _validateSvgElement(Svg.circle('width="100" height="100"', ""), "circle-with-props");
+        _validateSvgElement(Svg.circle("", ""), "circle-no-props");
     }
 
     function testCircleNoChildren() public {
-        _validateSvgElement(svg.circle('width="100" height="100"'), "circle-no-children-with-props");
-        _validateSvgElement(svg.circle(""), "circle-no-children-no-props");
+        _validateSvgElement(Svg.circle('width="100" height="100"'), "circle-no-children-with-props");
+        _validateSvgElement(Svg.circle(""), "circle-no-children-no-props");
     }
 
     function testRect() public {
         _validateSvgElement(
-            svg.rect('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.rect('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "rect-with-props-and-children"
         );
-        _validateSvgElement(svg.rect('width="100" height="100"', ""), "rect-with-props");
-        _validateSvgElement(svg.rect("", ""), "rect-no-props");
+        _validateSvgElement(Svg.rect('width="100" height="100"', ""), "rect-with-props");
+        _validateSvgElement(Svg.rect("", ""), "rect-no-props");
     }
 
     function testRectNoChildren() public {
-        _validateSvgElement(svg.rect('width="100" height="100"'), "rect-no-children-with-props");
-        _validateSvgElement(svg.rect(""), "rect-no-children-no-props");
+        _validateSvgElement(Svg.rect('width="100" height="100"'), "rect-no-children-with-props");
+        _validateSvgElement(Svg.rect(""), "rect-no-children-no-props");
     }
 
     function testFilter() public {
         _validateSvgElement(
-            svg.filter('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.filter('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "filter-with-props-and-children"
         );
-        _validateSvgElement(svg.filter('width="100" height="100"', ""), "filter-with-props");
-        _validateSvgElement(svg.filter("", ""), "filter-no-props");
+        _validateSvgElement(Svg.filter('width="100" height="100"', ""), "filter-with-props");
+        _validateSvgElement(Svg.filter("", ""), "filter-no-props");
     }
 
     function testCdata() public {
-        _validateSvgElement(svg.cdata("<svg></svg>"), "cdata");
+        _validateSvgElement(Svg.cdata("<svg></svg>"), "cdata");
     }
 
     function testRadialGradient() public {
         _validateSvgElement(
-            svg.radialGradient('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.radialGradient('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "radialGradient-with-props-and-children"
         );
-        _validateSvgElement(svg.radialGradient('width="100" height="100"', ""), "radialGradient-with-props");
-        _validateSvgElement(svg.radialGradient("", ""), "radialGradient-no-props");
+        _validateSvgElement(Svg.radialGradient('width="100" height="100"', ""), "radialGradient-with-props");
+        _validateSvgElement(Svg.radialGradient("", ""), "radialGradient-no-props");
     }
 
     function testLinearGradient() public {
         _validateSvgElement(
-            svg.linearGradient('width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.linearGradient('width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "linearGradient-with-props-and-children"
         );
-        _validateSvgElement(svg.linearGradient('width="100" height="100"', ""), "linearGradient-with-props");
-        _validateSvgElement(svg.linearGradient("", ""), "linearGradient-no-props");
+        _validateSvgElement(Svg.linearGradient('width="100" height="100"', ""), "linearGradient-with-props");
+        _validateSvgElement(Svg.linearGradient("", ""), "linearGradient-no-props");
     }
 
     function testGradientStop() public {
-        _validateSvgElement(svg.gradientStop(0, "red", 'width="100" height="100"'), "gradientStop-with-props");
-        _validateSvgElement(svg.gradientStop(0, "red", ""), "gradientStop-no-props");
+        _validateSvgElement(Svg.gradientStop(0, "red", 'width="100" height="100"'), "gradientStop-with-props");
+        _validateSvgElement(Svg.gradientStop(0, "red", ""), "gradientStop-no-props");
     }
 
     function testAnimateTransform() public {
-        _validateSvgElement(svg.animateTransform('width="100" height="100"'), "animateTransform-with-props");
-        _validateSvgElement(svg.animateTransform(""), "animateTransform-no-props");
+        _validateSvgElement(Svg.animateTransform('width="100" height="100"'), "animateTransform-with-props");
+        _validateSvgElement(Svg.animateTransform(""), "animateTransform-no-props");
     }
 
     function testImage() public {
-        _validateSvgElement(svg.image("https://example.com", 'width="100" height="100"'), "image-with-props");
-        _validateSvgElement(svg.image("https://example.com", ""), "image-no-props");
+        _validateSvgElement(Svg.image("https://example.com", 'width="100" height="100"'), "image-with-props");
+        _validateSvgElement(Svg.image("https://example.com", ""), "image-no-props");
     }
 
     function testEl() public {
         _validateSvgElement(
-            svg.el("rect", 'width="100" height="100"', '<circle width="100" height="100"></circle>'),
+            Svg.el("rect", 'width="100" height="100"', '<circle width="100" height="100"></circle>'),
             "el-with-props-and-children"
         );
-        _validateSvgElement(svg.el("rect", 'width="100" height="100"', ""), "el-with-props");
-        _validateSvgElement(svg.el("rect", "", ""), "el-no-props");
+        _validateSvgElement(Svg.el("rect", 'width="100" height="100"', ""), "el-with-props");
+        _validateSvgElement(Svg.el("rect", "", ""), "el-no-props");
     }
 
     function testElNoChildren() public {
-        _validateSvgElement(svg.el("rect", 'width="100" height="100"'), "el-no-children-with-props");
-        _validateSvgElement(svg.el("rect", ""), "el-no-children-no-props");
+        _validateSvgElement(Svg.el("rect", 'width="100" height="100"'), "el-no-children-with-props");
+        _validateSvgElement(Svg.el("rect", ""), "el-no-children-no-props");
     }
 
     function testProp() public {
-        string memory prop = svg.prop("width", "100");
-        _validateSvgElement(svg.el("rect", prop, ""), "prop");
+        string memory prop = Svg.prop("width", "100");
+        _validateSvgElement(Svg.el("rect", prop, ""), "prop");
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -191,22 +190,22 @@ contract svgTest is Test {
         // Write the svg to a file.
         vm.writeFile(string(abi.encodePacked(TEMP_SVG_DIR_PATH_AND_PREFIX, fileName, TEMP_SVG_FILE_TYPE)), libOutput);
 
-        // Validate the svg.
+        // Validate the Svg.
         _validateSvg(fileName);
     }
 
     function _validateSvgElement(string memory libOutput, string memory fileName) internal {
         // Wrap the svg element in a top level svg call.
-        libOutput = svg.top("", libOutput);
+        libOutput = Svg.top("", libOutput);
 
-        // Validate the svg.
+        // Validate the Svg.
         _validateTopLevelSvg(libOutput, fileName);
     }
 
     function _validateSvg(string memory fileName) internal {
         string memory filePath = string(abi.encodePacked(TEMP_SVG_DIR_PATH_AND_PREFIX, fileName, TEMP_SVG_FILE_TYPE));
 
-        // Run the validate_svg.js script on the file to validate the svg.
+        // Run the validate_Svg.js script on the file to validate the Svg.
         string[] memory commandLineInputs = new string[](3);
         commandLineInputs[0] = "node";
         commandLineInputs[1] = VALIDATE_SVG_PATH;

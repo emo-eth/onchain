@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import {json} from "./json.sol";
+import {Json} from "./Json.sol";
 import {LibString} from "solady/utils/LibString.sol";
-import {Solarray} from "solarray/Solarray.sol";
+import {Solarray} from "./Solarray.sol";
 import {Base64} from "solady/utils/Base64.sol";
 
 ///@notice modified from https://github.com/ProjectOpenSea/shipyard-core/blob/main/src/onchain/Metadata.sol
@@ -23,7 +23,7 @@ library Metadata {
     using LibString for string;
 
     function attribute(string memory traitType, string memory value) internal pure returns (string memory) {
-        return json.objectOf(Solarray.strings(json.property("trait_type", traitType), json.property("value", value)));
+        return Json.objectOf(Solarray.strings(Json.property("trait_type", traitType), Json.property("value", value)));
     }
 
     function attribute(string memory traitType, string memory value, DisplayType displayType)
@@ -31,11 +31,11 @@ library Metadata {
         pure
         returns (string memory)
     {
-        return json.objectOf(
+        return Json.objectOf(
             Solarray.strings(
-                json.property("trait_type", traitType),
-                json.property("value", value),
-                json.property("display_type", toString(displayType))
+                Json.property("trait_type", traitType),
+                Json.property("value", value),
+                Json.property("display_type", toString(displayType))
             )
         );
     }
