@@ -1,3 +1,7 @@
+[info]
+name = "onchain"
+version = "0.0.2"
+
 [profile.default]
 auto_detect_solc = false
 solc = '0.8.20'
